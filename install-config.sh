@@ -2,8 +2,7 @@
 confirm() { read -ren 1 -p "$1 [Y/n] " <&2 ; ! [[ $REPLY =~ ^[Nn]$ ]]; }
 
 # Install system packages
-sudo add-apt-repository ppa:neovim-ppa/unstable
-sudo apt -y install bat git neovim ripgrep zsh ||
+sudo apt -y install git neovim ripgrep zsh ||
 	{ echo "Unable to install packages. Aborting" && exit 1; }
 git config --global --add include.path .additional.gitconfig
 
