@@ -11,6 +11,7 @@ git clone --bare --config status.showUntrackedFiles=no\
 	https://github.com/nisheethlahoti/dotfiles.git ~/.dotfiles.git &&
 git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME checkout &&
 git --git-dir=$HOME/.dotfiles.git/ config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*" &&
+git --git-dir=$HOME/.dotfiles.git/ config branch.master.remote origin &&
 echo "All config files downloaded and checked out" ||
 	{ confirm "Unable to checkout config files. Abort?" && exit 1; }
 
