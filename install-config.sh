@@ -30,12 +30,5 @@ fi
 
 # [Optional] set zsh as default shell
 if confirm "Set zsh to default shell?"; then
-	if confirm "Do you know your password?"; then
-		chsh -s /usr/bin/zsh && echo "Zsh is now the default shell."
-	elif sudo cp /etc/pam.d/chsh /etc/pam.d/chsh.bak; then
-		sed -Ee 's/required(\s+pam_shells\.so)/sufficient\1/' /etc/pam.d/chsh.bak |
-			sudo tee /etc/pam.d/chsh > /dev/null &&
-		chsh -s /usr/bin/zsh && echo "Zsh is now the default shell."
-		sudo mv /etc/pam.d/chsh.bak /etc/pam.d/chsh
-	fi
+	sudo usermod -s /usr/bin/zsh $USER && echo "Zsh is now the default shell."
 fi
