@@ -2,7 +2,7 @@
 confirm() { read -ren 1 -p "$1 [Y/n] " <&2 ; ! [[ $REPLY =~ ^[Nn]$ ]]; }
 
 # Install system packages
-sudo apt -y install git ripgrep zsh ||
+sudo apt -y install gcc git ripgrep zsh ||
 	{ echo "Unable to install packages. Aborting" && exit 1; }
 sudo snap install --classic nvim
 git config --global --add include.path .additional.gitconfig
@@ -23,9 +23,9 @@ nvim -c "PlugInstall | qa" - < /dev/null &&
 echo "Neovim plugins installed" || echo "Unable to install neovim plugins"
 
 # [Optional] set neovim as default editor
-sudo update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 30
+sudo update-alternatives --install /usr/bin/editor editor /snap/nvim/current/usr/bin/nvim 30
 if confirm "Set neovim to default editor?"; then
-	sudo update-alternatives --set editor /usr/bin/nvim &&
+	sudo update-alternatives --set editor /snap/nvim/current/usr/bin/nvim &&
 	echo "Neovim is now the default editor."
 fi
 
