@@ -17,14 +17,9 @@ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
 nvim -c "PlugInstall | qa" - < /dev/null &&
 echo "Neovim plugins installed" || echo "Unable to install neovim plugins"
 
-# Install micromamba, and basic python tools
-zsh <(curl -L micro.mamba.pm/install.sh)
-micromamba install python isort black
+zsh <(curl -L micro.mamba.pm/install.sh)  # Install micromamba
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash  # Install nvm
+ssh-keygen -t ed25519 # Generate ssh keypair
 
-# Install nvm, npm and pyright
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
-nvm install stable
-npm install -g pyright
-
-# Generate ssh keypair
-ssh-keygen -t ed25519
+# Do the rest in a new zsh session
+zsc -c "micromamba install python isort black ; nvm install stable ; npm install -g pyright"
