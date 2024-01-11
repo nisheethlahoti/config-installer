@@ -1,10 +1,6 @@
 # Function to prompt user for yes/no and return with corresponding value
 confirm() { read -ren 1 -p "$1 [Y/n] " <&2 ; ! [[ $REPLY =~ ^[Nn]$ ]]; }
 
-# Install system packages
-sudo apt -y install gcc git ripgrep zsh ||
-	{ echo "Unable to install packages. Aborting" && exit 1; }
-sudo snap install --classic nvim
 git config --global --add include.path .additional.gitconfig
 
 # Clone and checkout dotfiles
@@ -13,8 +9,7 @@ git clone --bare --config status.showUntrackedFiles=no\
 git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME checkout &&
 git --git-dir=$HOME/.dotfiles.git/ config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*" &&
 git --git-dir=$HOME/.dotfiles.git/ config branch.master.remote origin &&
-echo "All config files downloaded and checked out" ||
-	{ confirm "Unable to checkout config files. Abort?" && exit 1; }
+echo "All config files downloaded and checked out" || echo "Unable to checkout config files"
 
 # Install neovim plugins
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
@@ -22,14 +17,14 @@ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
 nvim -c "PlugInstall | qa" - < /dev/null &&
 echo "Neovim plugins installed" || echo "Unable to install neovim plugins"
 
-# [Optional] set neovim as default editor
-sudo update-alternatives --install /usr/bin/editor editor /snap/nvim/current/usr/bin/nvim 30
-if confirm "Set neovim to default editor?"; then
-	sudo update-alternatives --set editor /snap/nvim/current/usr/bin/nvim &&
-	echo "Neovim is now the default editor."
-fi
+# Install micromamba, and basic python tools
+zsh <(curl -L micro.mamba.pm/install.sh)
+micromamba install python isort black
 
-# [Optional] set zsh as default shell
-if confirm "Set zsh to default shell?"; then
-	sudo usermod -s /usr/bin/zsh $USER && echo "Zsh is now the default shell."
-fi
+# Install nvm, npm and pyright
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+nvm install stable
+npm install -g pyright
+
+# Generate ssh keypair
+ssh-keygen -t ed25519
