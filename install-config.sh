@@ -44,12 +44,12 @@ esac
 git config --global --add include.path .additional.gitconfig
 
 # Clone and checkout dotfiles
-git clone --bare --config status.showUntrackedFiles=no\
-	https://github.com/nisheethlahoti/dotfiles.git ~/.dotfiles.git &&
-git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME checkout &&
-git --git-dir=$HOME/.dotfiles.git/ config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*" &&
-git --git-dir=$HOME/.dotfiles.git/ config branch.master.remote origin &&
-git --git-dir=$HOME/.dotfiles.git/ config branch.master.merge refs/heads/master &&
+git clone --no-checkout --config status.showUntrackedFiles=no\
+	https://github.com/nisheethlahoti/dotfiles.git ~/.temp &&
+mv ~/.temp/.git ~/.dotfiles.git &&
+rm -d ~/.temp &&
+git --git-dir=$HOME/.dotfiles.git/ config core.worktree ~ &&
+git --git-dir=$HOME/.dotfiles.git/ checkout &&
 echo "All config files downloaded and checked out" || echo "Unable to checkout config files"
 
 # Install neovim plugins
