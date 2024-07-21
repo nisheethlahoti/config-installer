@@ -66,4 +66,4 @@ ssh-keygen -t ed25519 # Generate ssh keypair
 git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME checkout HEAD -- $HOME
 
 # Do the rest in a new zsh session
-zsh -c "micromamba install python isort black ; nvm install stable ; npm install -g pyright"
+zsh -c "micromamba install python pynvim ruff debugpy ; nvm install stable ; npm install -g pyright"
