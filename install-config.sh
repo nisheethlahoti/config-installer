@@ -11,8 +11,8 @@ case $(uname -s) in
 				sudo apt -y install gcc git ripgrep zsh &&
 				sudo snap install --classic nvim &&
 				NVIM_PATH=/snap/nvim/current/usr/bin/nvim;;
-			fedora) sudo dnf -y install gcc git ripgrep zsh nvim;;
-			arch) sudo pacman --noconfirm -S gcc git ripgrep zsh nvim;;
+			fedora) sudo dnf -y install gcc git ripgrep zsh neovim;;
+			arch) sudo pacman --noconfirm -S gcc git ripgrep zsh neovim;;
 			*) echo "Unrecognized linux flavor" && false
 		esac || { echo "Unable to install packages. Aborting" && exit 1; }
 
