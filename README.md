@@ -1,6 +1,5 @@
 # config-installer
-Installer for the dotfiles repo.  
-Run install-config.sh to download and install the repo.
+Installer for my entire dev environment.
 
 Usually there's no point cloning this repo. Just run the command
 ```

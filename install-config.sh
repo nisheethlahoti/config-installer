@@ -10,9 +10,12 @@ case $(uname -s) in
 			ubuntu)
 				sudo apt -y install gcc git ripgrep zsh &&
 				sudo snap install --classic nvim &&
-				NVIM_PATH=/snap/nvim/current/usr/bin/nvim;;
-			fedora) sudo dnf -y install gcc git ripgrep zsh neovim;;
-			arch) sudo pacman --noconfirm -S gcc git ripgrep zsh neovim;;
+				NVIM_PATH=/snap/nvim/current/usr/bin/nvim &&
+				curl -sSL https://pdm-project.org/install-pdm.py | python3 - ;;
+			fedora)
+				sudo dnf -y install gcc git ripgrep zsh neovim &&
+				curl -sSL https://pdm-project.org/install-pdm.py | python3 - ;;
+			arch) sudo pacman --noconfirm -S gcc git ripgrep zsh neovim python-pdm;;
 			*) echo "Unrecognized linux flavor" && false
 		esac || { echo "Unable to install packages. Aborting" && exit 1; }
 
@@ -33,7 +36,7 @@ case $(uname -s) in
 
 		# Install packages
 		brew install --cask docker stats
-		brew install iterm2 ripgrep docker-compose neovim
+		brew install iterm2 ripgrep docker-compose neovim pdm
 
 		# Install iterm shell integration and remove zshrc (so it can be loaded later)
 		curl -fsSL https://iterm2.com/shell_integration/install_shell_integration.sh | bash
@@ -61,6 +64,9 @@ echo "Neovim plugins installed" || echo "Unable to install neovim plugins"
 zsh <(curl -L micro.mamba.pm/install.sh)  # Install micromamba
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash  # Install nvm
 ssh-keygen -t ed25519 # Generate ssh keypair
+
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh  # Install Rust
+cargo install atuin  # Install rust-based packages
 
 # Remove changes done to zshrc etc. on plugin installation
 git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME checkout HEAD -- $HOME
