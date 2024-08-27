@@ -55,12 +55,6 @@ git --git-dir=$HOME/.dotfiles.git/ config core.worktree ~ &&
 git --git-dir=$HOME/.dotfiles.git/ checkout &&
 echo "All config files downloaded and checked out" || echo "Unable to checkout config files"
 
-# Install neovim plugins
-curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim &&
-nvim -c "PlugInstall | qa" - < /dev/null &&
-echo "Neovim plugins installed" || echo "Unable to install neovim plugins"
-
 zsh <(curl -L micro.mamba.pm/install.sh)  # Install micromamba
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash  # Install nvm
 ssh-keygen -t ed25519 # Generate ssh keypair
