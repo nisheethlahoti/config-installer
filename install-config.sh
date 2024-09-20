@@ -15,7 +15,7 @@ case $(uname -s) in
 			fedora)
 				sudo dnf -y install gcc git ripgrep zsh neovim &&
 				curl -sSL https://pdm-project.org/install-pdm.py | python3 - ;;
-			arch) sudo pacman --noconfirm -S gcc git ripgrep zsh neovim python-pdm;;
+			arch) sudo pacman --noconfirm -S gcc git ripgrep zsh neovim python-pdm htop tmux pkgfile;;
 			*) echo "Unrecognized linux flavor" && false
 		esac || { echo "Unable to install packages. Aborting" && exit 1; }
 
