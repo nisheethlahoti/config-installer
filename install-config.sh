@@ -1,16 +1,11 @@
-# Function to prompt user for yes/no and return with corresponding value
-confirm() { read -ren 1 -p "$1 [Y/n] " <&2 ; ! [[ $REPLY =~ ^[Nn]$ ]]; }
-
 # OS-specific stuff
 case $(uname -s) in
 	Linux)
 		# Install system packages
-		NVIM_PATH=/usr/bin/nvim
 		case $(cat /etc/os-release | grep "^ID=" | sed "s/ID=//") in
 			ubuntu)
 				sudo apt -y install gcc git ripgrep zsh trash-cli &&
 				sudo snap install --classic nvim &&
-				NVIM_PATH=/snap/nvim/current/usr/bin/nvim &&
 				curl -sSL https://pdm-project.org/install-pdm.py | python3 - ;;
 			fedora)
 				sudo dnf -y install gcc git ripgrep zsh neovim trash-cli &&
@@ -19,17 +14,8 @@ case $(uname -s) in
 			*) echo "Unrecognized linux flavor" && false
 		esac || { echo "Unable to install packages. Aborting" && exit 1; }
 
-		# [Optional] set neovim as default editor
-		sudo update-alternatives --install /usr/bin/editor editor $NVIM_PATH 30
-		if confirm "Set neovim to default editor?"; then
-			sudo update-alternatives --set editor $NVIM_PATH &&
-			echo "Neovim is now the default editor."
-		fi
-
-		# [Optional] set zsh as default shell
-		if confirm "Set zsh to default shell?"; then
-			sudo usermod -s /usr/bin/zsh $USER && echo "Zsh is now the default shell."
-		fi ;;
+		# set zsh as default shell
+		sudo usermod -s /usr/bin/zsh $USER && echo "Zsh is now the default shell." ;;
 	Darwin)
 		# Install homebrew
 		curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash
