@@ -6,13 +6,12 @@ case $(uname -s) in
 			ubuntu)
 				sudo apt -y install gcc git ripgrep zsh trash-cli atuin &&
 				sudo snap install --classic nvim &&
-				curl -sSL https://pdm-project.org/install-pdm.py | python3 - ;;
+				curl -LsSf https://astral.sh/uv/install.sh | sh;;
 			fedora)
-				sudo dnf -y install gcc git ripgrep zsh neovim trash-cli &&
-				curl -sSL https://pdm-project.org/install-pdm.py | python3 - &&
+				sudo dnf -y install gcc git ripgrep zsh neovim trash-cli uv &&
 				curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh;;  # Install atuin
 			arch)
-				sudo pacman --noconfirm -S gcc git ripgrep zsh neovim python-pdm htop tmux pkgfile trash-cli atuin unzip nvidia-open &&
+				sudo pacman --noconfirm -S gcc git ripgrep zsh neovim uv htop tmux pkgfile trash-cli atuin unzip nvidia-open &&
 				sudo pkgfile --update;;
 			*) echo "Unrecognized linux flavor" && false
 		esac || { echo "Unable to install packages. Aborting" && exit 1; }
@@ -25,7 +24,7 @@ case $(uname -s) in
 
 		# Install packages
 		brew install --cask docker stats
-		brew install iterm2 ripgrep docker-compose neovim pdm atuin;;
+		brew install iterm2 ripgrep docker-compose neovim uv atuin;;
 	*) echo "Unrecognized OS. Aborting" && exit 1 ;;
 esac
 
@@ -33,7 +32,6 @@ esac
 curl -fsSL https://iterm2.com/shell_integration/install_shell_integration.sh | bash
 
 git config --global --add include.path .additional.gitconfig
-zsh <(curl -L micro.mamba.pm/install.sh)  # Install micromamba
 
 # Clone and checkout dotfiles
 git clone --no-checkout --config status.showUntrackedFiles=no\
@@ -44,7 +42,10 @@ git --git-dir=$HOME/.dotfiles.git/ config core.worktree ~ &&
 git --git-dir=$HOME/.dotfiles.git/ checkout HEAD -- ~ &&
 echo "All config files downloaded and checked out" || echo "Unable to checkout config files"
 
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash  # Install nvm
+# Create base python environment and install neovim's python client in it
+uv venv ~/basepython --python-preference only-managed
+uv pip install -p ~/basepython/bin/python pynvim
 
-# Do the rest in a new zsh session
-zsh -c "micromamba install python pynvim ; nvm install stable"
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash  # Install nvm
+source "$HOME/.nvm/nvm.sh"  # This loads nvm
+nvm install stable  # Install stable version of node.js
