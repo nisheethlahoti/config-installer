@@ -17,7 +17,7 @@ case $(uname -s) in
 			*) echo "Unrecognized linux flavor" && false
 		esac || { echo "Unable to install packages. Aborting" && exit 1; }
 
-		# set zsh as default shell
+		sudo timedatectl set-timezone Asia/Kolkata
 		sudo usermod -s /usr/bin/zsh $USER && echo "Zsh is now the default shell." ;;
 	Darwin)
 		# Install homebrew
