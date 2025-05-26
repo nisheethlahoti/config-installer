@@ -44,7 +44,7 @@ git --git-dir=$HOME/.dotfiles.git/ checkout HEAD -- ~ &&
 echo "All config files downloaded and checked out" || echo "Unable to checkout config files"
 
 # Create base python environment and install neovim's python client in it
-uv venv ~/basepython --python-preference only-managed
+uv venv ~/basepython
 uv pip install -p ~/basepython/bin/python pynvim
 
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash  # Install nvm
