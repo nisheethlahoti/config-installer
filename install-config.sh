@@ -46,7 +46,3 @@ echo "All config files downloaded and checked out" || echo "Unable to checkout c
 # Create base python environment and install neovim's python client in it
 uv venv ~/basepython --python-preference only-managed
 uv pip install -p ~/basepython/bin/python pynvim
-
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash  # Install nvm
-source "$HOME/.nvm/nvm.sh"  # This loads nvm
-nvm install stable  # Install stable version of node.js
