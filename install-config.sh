@@ -30,7 +30,7 @@ case $(uname -s) in
 esac
 
 # Install iterm shell integration
-curl -fsSL https://iterm2.com/shell_integration/install_shell_integration.sh | bash
+curl -fsSL https://iterm2.com/shell_integration/zsh -o ~/.iterm2_shell_integration.zsh
 
 git config --global --add include.path .additional.gitconfig
 
