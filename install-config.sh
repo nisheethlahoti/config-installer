@@ -8,8 +8,9 @@ case $(uname -s) in
 				sudo snap install --classic nvim &&
 				curl -LsSf https://astral.sh/uv/install.sh | sh;;
 			fedora)
-				sudo dnf -y install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm && # Enable non-free repos
-				sudo dnf -y install gcc git ripgrep zsh neovim trash-cli uv PackageKit-command-not-found &&
+				sudo dnf config-manager addrepo --from-repofile=https://negativo17.org/repos/fedora-nvidia.repo  # Best source for nvidia drivers
+				sudo dnf update &&
+				sudo dnf -y install gcc git ripgrep zsh neovim trash-cli uv &&
 				curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh;;  # Install atuin
 			arch)
 				sudo pacman --noconfirm -S gcc git ripgrep zsh neovim uv htop tmux pkgfile trash-cli atuin unzip nvidia-open &&
