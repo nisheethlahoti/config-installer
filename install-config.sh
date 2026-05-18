@@ -8,7 +8,9 @@ case $(uname -s) in
 				sudo snap install --classic nvim &&
 				curl -LsSf https://astral.sh/uv/install.sh | sh;;
 			fedora)
-				sudo dnf config-manager addrepo --from-repofile=https://negativo17.org/repos/fedora-nvidia.repo  # Best source for nvidia drivers
+				sudo dnf install \
+					https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+					https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm  # Use rpmfusion nonfree repos
 				sudo dnf update &&
 				sudo dnf -y install gcc git ripgrep zsh neovim trash-cli uv &&
 				curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh;;  # Install atuin
