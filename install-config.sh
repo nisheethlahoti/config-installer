@@ -46,6 +46,10 @@ git --git-dir=$HOME/.dotfiles.git/ config core.worktree ~ &&
 git --git-dir=$HOME/.dotfiles.git/ checkout HEAD -- ~ &&
 echo "All config files downloaded and checked out" || echo "Unable to checkout config files"
 
+# Install TMUX plugins
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+~/.tmux/plugins/tpm/bin/install_plugins
+
 # Create base python environment and install neovim's python client in it
 PATH=$HOME/.local/bin:$PATH  # In case uv is a local install
 uv venv ~/basepython --managed-python
