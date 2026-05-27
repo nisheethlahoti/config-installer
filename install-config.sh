@@ -4,7 +4,7 @@ case $(uname -s) in
 		# Install system packages
 		case $(cat /etc/os-release | grep "^ID=" | sed "s/ID=//") in
 			ubuntu)
-				sudo apt -y install gcc git ripgrep zsh trash-cli atuin &&
+				sudo apt -y install gcc git ripgrep zsh rsync trash-cli atuin &&
 				sudo snap install --classic nvim &&
 				curl -LsSf https://astral.sh/uv/install.sh | sh;;
 			fedora)
@@ -12,10 +12,10 @@ case $(uname -s) in
 					https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
 					https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm  # Use rpmfusion nonfree repos
 				sudo dnf update &&
-				sudo dnf -y install gcc git ripgrep zsh neovim trash-cli uv &&
+				sudo dnf -y install gcc git ripgrep zsh neovim rsync trash-cli uv &&
 				curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh;;  # Install atuin
 			arch)
-				sudo pacman --noconfirm -S gcc git ripgrep zsh neovim uv htop tmux pkgfile trash-cli atuin unzip &&
+				sudo pacman --noconfirm -S gcc git ripgrep zsh neovim uv htop tmux rsync pkgfile trash-cli atuin unzip &&
 				sudo pkgfile --update;;
 			*) echo "Unrecognized linux flavor" && false
 		esac || { echo "Unable to install packages. Aborting" && exit 1; }
@@ -27,8 +27,8 @@ case $(uname -s) in
 		curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash
 
 		# Install packages
-		brew install --cask docker stats
-		brew install iterm2 ripgrep docker-compose neovim uv atuin;;
+		brew install --cask stats
+		brew install ghostty ripgrep neovim rsync uv atuin;;
 	*) echo "Unrecognized OS. Aborting" && exit 1 ;;
 esac
 
